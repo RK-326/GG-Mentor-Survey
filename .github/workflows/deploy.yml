@@ -1,0 +1,53 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  AWS_REGION: us-east-1
+  ECR_REGISTRY: 818034793268.dkr.ecr.us-east-1.amazonaws.com
+  ECR_REPOSITORY: sat-focus-group
+  CONTAINER_NAME: sat-focus-group
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push Docker image
+        run: |
+          docker build --platform linux/amd64 \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+
+      - name: Generate ECR login token
+        id: ecr-token
+        run: echo "token=$(aws ecr get-login-password --region $AWS_REGION)" >> $GITHUB_OUTPUT
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          envs: ECR_REGISTRY,ECR_REPOSITORY,CONTAINER_NAME
+          script: |
+            echo "${{ steps.ecr-token.outputs.token }}" | sudo docker login --username AWS --password-stdin $ECR_REGISTRY
+            sudo docker pull $ECR_REGISTRY/$ECR_REPOSITORY:latest
+            # Preserve env vars from running container
+            ENV_ARGS=$(sudo docker inspect $CONTAINER_NAME --format '{{range .Config.Env}}{{printf "-e %q " .}}{{end}}' 2>/dev/null || echo "")
+            sudo docker stop $CONTAINER_NAME 2>/dev/null; sudo docker rm $CONTAINER_NAME 2>/dev/null
+            eval "sudo docker run -d --name $CONTAINER_NAME --restart unless-stopped -p 3001:3000 $ENV_ARGS $ECR_REGISTRY/$ECR_REPOSITORY:latest"
