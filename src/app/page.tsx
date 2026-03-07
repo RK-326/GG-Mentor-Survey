@@ -24,7 +24,7 @@ export default function HomePage() {
 
   const handleStart = () => {
     setLoading(true);
-    router.push("/mentor/s/mentor");
+    router.push("/s/mentor");
   };
 
   return (

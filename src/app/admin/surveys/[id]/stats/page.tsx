@@ -62,7 +62,7 @@ export default function StatsPage({
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch(`/mentor/api/admin/surveys/${id}/stats`)
+    fetch(`/api/admin/surveys/${id}/stats`)
       .then((r) => {
         if (!r.ok) throw new Error(r.status === 401 ? "Не авторизован" : "Ошибка загрузки");
         return r.json();

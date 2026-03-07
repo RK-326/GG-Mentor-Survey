@@ -50,7 +50,7 @@ export default function AdminLayout({
   const router = useRouter();
 
   useEffect(() => {
-    fetch("/mentor/api/admin/auth/me")
+    fetch("/api/admin/auth/me")
       .then((r) => (r.ok ? r.json() : null))
       .then((data) => setUser(data || null))
       .catch(() => setUser(null))
@@ -62,7 +62,7 @@ export default function AdminLayout({
     setLoading(true);
     setError("");
 
-    const res = await fetch("/mentor/api/admin/auth", {
+    const res = await fetch("/api/admin/auth", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
@@ -79,7 +79,7 @@ export default function AdminLayout({
   };
 
   const handleLogout = async () => {
-    await fetch("/mentor/api/admin/auth/logout", { method: "POST" });
+    await fetch("/api/admin/auth/logout", { method: "POST" });
     setUser(null);
   };
 

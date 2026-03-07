@@ -97,7 +97,7 @@ export default function ResponsesPage({
     if (search) params.set("search", search);
 
     const res = await fetch(
-      `/mentor/api/admin/surveys/${id}/responses?${params}`
+      `/api/admin/surveys/${id}/responses?${params}`
     );
     if (res.ok) {
       const data = await res.json();
@@ -108,7 +108,7 @@ export default function ResponsesPage({
   }, [id, page, sort, statusFilter, search]);
 
   useEffect(() => {
-    fetch(`/mentor/api/admin/surveys/${id}`)
+    fetch(`/api/admin/surveys/${id}`)
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => d && setSurveyTitle(d.survey?.title || ""));
   }, [id]);
@@ -153,7 +153,7 @@ export default function ResponsesPage({
   const handleBulkUpdate = async () => {
     if (!bulkStatus || selected.size === 0) return;
     setBulkLoading(true);
-    const res = await fetch(`/mentor/api/admin/surveys/${id}/responses`, {
+    const res = await fetch(`/api/admin/surveys/${id}/responses`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ids: Array.from(selected), status: bulkStatus }),
@@ -174,7 +174,7 @@ export default function ResponsesPage({
     setBulkLoading(true);
     // Delete one by one (no bulk delete endpoint)
     for (const rid of selected) {
-      await fetch(`/mentor/api/admin/surveys/${id}/responses/${rid}`, {
+      await fetch(`/api/admin/surveys/${id}/responses/${rid}`, {
         method: "DELETE",
       });
     }
@@ -201,7 +201,7 @@ export default function ResponsesPage({
           <p className="text-sm text-gray-500">{surveyTitle}</p>
         </div>
         <div className="ml-auto">
-          <a href={`/mentor/api/admin/surveys/${id}/export`}>
+          <a href={`/api/admin/surveys/${id}/export`}>
             <Button variant="outline" size="sm">
               <Download className="h-4 w-4 mr-1" /> CSV
             </Button>
@@ -297,7 +297,7 @@ export default function ResponsesPage({
             )}
           </Button>
           <a
-            href={`/mentor/api/admin/surveys/${id}/export?ids=${Array.from(selected).join(",")}`}
+            href={`/api/admin/surveys/${id}/export?ids=${Array.from(selected).join(",")}`}
           >
             <Button variant="outline" size="sm" className="rounded-xl">
               <Download className="mr-1 h-3.5 w-3.5" />

@@ -23,7 +23,7 @@ export default function AdminTestsHubPage() {
   const [contentScoutCount, setContentScoutCount] = useState<number | null>(null);
 
   useEffect(() => {
-    fetch("/mentor/api/content-scout")
+    fetch("/api/content-scout")
       .then((r) => (r.ok ? r.json() : []))
       .then((data) => setContentScoutCount(Array.isArray(data) ? data.length : 0))
       .catch(() => setContentScoutCount(0));

@@ -69,7 +69,7 @@ export default function ResponseDetailPage({
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    fetch(`/mentor/api/admin/surveys/${id}/responses/${rid}`)
+    fetch(`/api/admin/surveys/${id}/responses/${rid}`)
       .then((r) => r.json())
       .then((data) => {
         setResponse(data.response);
@@ -81,7 +81,7 @@ export default function ResponseDetailPage({
 
   const handleSave = async () => {
     setSaving(true);
-    await fetch(`/mentor/api/admin/surveys/${id}/responses/${rid}`, {
+    await fetch(`/api/admin/surveys/${id}/responses/${rid}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status, adminNotes: notes }),

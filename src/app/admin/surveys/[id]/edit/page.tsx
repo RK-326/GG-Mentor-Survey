@@ -102,7 +102,7 @@ export default function SurveyEditorPage({
   }, [id]);
 
   const loadSurvey = async () => {
-    const res = await fetch(`/mentor/api/admin/surveys/${id}`);
+    const res = await fetch(`/api/admin/surveys/${id}`);
     if (res.ok) {
       const data = await res.json();
       setSurvey(data.survey);
@@ -122,7 +122,7 @@ export default function SurveyEditorPage({
   const savePages = async () => {
     if (!survey) return;
     setSaving(true);
-    await fetch(`/mentor/api/admin/surveys/${id}/pages`, {
+    await fetch(`/api/admin/surveys/${id}/pages`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ pages: survey.pages }),
@@ -132,7 +132,7 @@ export default function SurveyEditorPage({
 
   const saveSettings = async () => {
     setSaving(true);
-    await fetch(`/mentor/api/admin/surveys/${id}`, {
+    await fetch(`/api/admin/surveys/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(settingsData),

@@ -92,7 +92,7 @@ export default function SubmissionDetailPage({
   const [saving, setSaving] = useState(false);
 
   const fetchSubmission = useCallback(async () => {
-    const res = await fetch(`/mentor/api/admin/submissions/${id}`);
+    const res = await fetch(`/api/admin/submissions/${id}`);
     if (res.ok) {
       const data = await res.json();
       setSub(data);
@@ -107,7 +107,7 @@ export default function SubmissionDetailPage({
 
   const handleSave = async () => {
     setSaving(true);
-    await fetch(`/mentor/api/admin/submissions/${id}`, {
+    await fetch(`/api/admin/submissions/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status, adminNotes: notes }),

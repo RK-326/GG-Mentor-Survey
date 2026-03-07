@@ -45,7 +45,7 @@ export default function ContentScoutSubmissionsPage() {
 
   const loadSubmissions = () => {
     setLoading(true);
-    fetch("/mentor/api/content-scout")
+    fetch("/api/content-scout")
       .then((r) => (r.ok ? r.json() : []))
       .then((data) => setSubmissions(data))
       .catch(() => setSubmissions([]))
@@ -78,7 +78,7 @@ export default function ContentScoutSubmissionsPage() {
     if (checked.size === 0) return;
     if (!confirm(`Удалить ${checked.size} ответ(ов)? Это необратимо.`)) return;
     setBulkLoading(true);
-    const res = await fetch("/mentor/api/content-scout", {
+    const res = await fetch("/api/content-scout", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ids: Array.from(checked) }),

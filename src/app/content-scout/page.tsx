@@ -145,7 +145,7 @@ export default function ContentScoutPage() {
     setError("");
 
     try {
-      const res = await fetch("/mentor/api/content-scout", {
+      const res = await fetch("/api/content-scout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),

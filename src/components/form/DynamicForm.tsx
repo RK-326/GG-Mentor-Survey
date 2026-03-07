@@ -135,7 +135,7 @@ export default function DynamicForm({ survey }: Props) {
     setSubmitting(true);
     setError("");
 
-    const res = await fetch(`/mentor/api/surveys/${survey.slug}/submit`, {
+    const res = await fetch(`/api/surveys/${survey.slug}/submit`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ answers: values }),

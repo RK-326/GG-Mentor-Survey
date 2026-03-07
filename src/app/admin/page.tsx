@@ -52,7 +52,7 @@ export default function AdminDashboard() {
   const router = useRouter();
 
   const loadSurveys = async () => {
-    const res = await fetch("/mentor/api/admin/surveys");
+    const res = await fetch("/api/admin/surveys");
     if (res.ok) {
       const data = await res.json();
       setSurveys(data.surveys);
@@ -67,7 +67,7 @@ export default function AdminDashboard() {
   const handleCreate = async () => {
     if (!newTitle || !newSlug) return;
     setCreating(true);
-    const res = await fetch("/mentor/api/admin/surveys", {
+    const res = await fetch("/api/admin/surveys", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ title: newTitle, slug: newSlug }),
@@ -83,7 +83,7 @@ export default function AdminDashboard() {
   };
 
   const handleDuplicate = async (id: string) => {
-    const res = await fetch(`/mentor/api/admin/surveys/${id}/duplicate`, {
+    const res = await fetch(`/api/admin/surveys/${id}/duplicate`, {
       method: "POST",
     });
     if (res.ok) {
@@ -93,7 +93,7 @@ export default function AdminDashboard() {
   };
 
   const handleStatusChange = async (id: string, status: string) => {
-    await fetch(`/mentor/api/admin/surveys/${id}/status`, {
+    await fetch(`/api/admin/surveys/${id}/status`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status }),
@@ -240,7 +240,7 @@ export default function AdminDashboard() {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => window.open(`/mentor/s/${s.slug}`, "_blank")}
+                      onClick={() => window.open(`/s/${s.slug}`, "_blank")}
                       className="rounded-lg border-slate-200/80 bg-white/70 backdrop-blur-sm hover:bg-white"
                     >
                       <ExternalLink className="h-3.5 w-3.5" />

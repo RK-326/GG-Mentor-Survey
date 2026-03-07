@@ -35,7 +35,7 @@ export default function UsersPage() {
   const [bulkLoading, setBulkLoading] = useState(false);
 
   const loadUsers = async () => {
-    const res = await fetch("/mentor/api/admin/users");
+    const res = await fetch("/api/admin/users");
     if (res.ok) {
       const data = await res.json();
       setUsers(data.users);
@@ -56,7 +56,7 @@ export default function UsersPage() {
       if (form.email) body.email = form.email;
       if (form.password) body.password = form.password;
 
-      const res = await fetch(`/mentor/api/admin/users/${editId}`, {
+      const res = await fetch(`/api/admin/users/${editId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
@@ -73,7 +73,7 @@ export default function UsersPage() {
         setSaving(false);
         return;
       }
-      const res = await fetch("/mentor/api/admin/users", {
+      const res = await fetch("/api/admin/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -95,7 +95,7 @@ export default function UsersPage() {
 
   const handleDelete = async (id: string) => {
     if (!confirm("Удалить пользователя?")) return;
-    await fetch(`/mentor/api/admin/users/${id}`, { method: "DELETE" });
+    await fetch(`/api/admin/users/${id}`, { method: "DELETE" });
     loadUsers();
   };
 
@@ -127,7 +127,7 @@ export default function UsersPage() {
     if (selected.size === 0) return;
     if (!confirm(`Удалить ${selected.size} пользователь(ей)? Это необратимо.`)) return;
     setBulkLoading(true);
-    const res = await fetch("/mentor/api/admin/users", {
+    const res = await fetch("/api/admin/users", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ids: Array.from(selected) }),
@@ -145,7 +145,7 @@ export default function UsersPage() {
   const handleBulkRoleChange = async (role: string) => {
     if (selected.size === 0 || !role) return;
     setBulkLoading(true);
-    const res = await fetch("/mentor/api/admin/users", {
+    const res = await fetch("/api/admin/users", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ids: Array.from(selected), role }),
