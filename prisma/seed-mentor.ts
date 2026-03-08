@@ -109,27 +109,7 @@ async function main() {
                     ],
                   },
                 },
-                {
-                  fieldKey: "proudestCase",
-                  label: "Расскажи о студенте, которым ты больше всего гордишься",
-                  description: "Конкретная история: бэкграунд студента, что вы делали вместе, результат",
-                  type: "TEXTAREA",
-                  required: true,
-                  sortOrder: 1,
-                  scoringCategory: "proudestCase",
-                  maxPoints: 15,
-                  scoringRules: {
-                    type: "textLength",
-                    tiers: [
-                      { min: 500, points: 15 },
-                      { min: 250, points: 10 },
-                      { min: 100, points: 5 },
-                      { min: 50, points: 2 },
-                    ],
-                  },
-                },
-                {
-                  fieldKey: "failedCase",
+{,
                   label: "Был ли случай, когда студент не поступил туда, куда планировал? Что пошло не так?",
                   description: "Нас интересует твой честный разбор — что ты бы сделал(а) иначе",
                   type: "TEXTAREA",
