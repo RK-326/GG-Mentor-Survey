@@ -12,7 +12,8 @@
     "seed": "npx tsx prisma/seed.ts",
     "seed:survey": "npx tsx prisma/seed-existing-survey.ts",
     "seed:content-scout": "npx tsx prisma/seed-content-scout.ts",
-    "seed:mentor": "npx tsx prisma/seed-mentor.ts"
+    "seed:mentor": "npx tsx prisma/seed-mentor.ts",
+    "seed:ios-developer": "npx tsx prisma/seed-ios-developer.ts"
   },
   "keywords": [],
   "author": "",

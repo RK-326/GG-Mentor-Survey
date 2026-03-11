@@ -109,6 +109,17 @@ export default function QuestionRenderer({
           onChange={handleChange}
         />
       );
+    case "INFO":
+      return (
+        <div className="rounded-xl border border-blue-100 bg-blue-50/60 p-4">
+          <p className="mb-1 text-sm font-semibold text-blue-800">{question.label}</p>
+          {question.description && (
+            <div className="whitespace-pre-wrap text-sm leading-relaxed text-slate-700">
+              {question.description}
+            </div>
+          )}
+        </div>
+      );
     default:
       return (
         <div className="text-sm text-red-500">
