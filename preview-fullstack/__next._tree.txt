@@ -1,0 +1,2 @@
+:HL["/GG-Mentor-Survey/_next/static/chunks/cd0be39d4a0c43de.css","style"]
+0:{"buildId":"BuEgD8kP0DFIw6hQLt44F","tree":{"name":"","paramType":null,"paramKey":"","hasRuntimePrefetch":false,"slots":{"children":{"name":"preview-fullstack","paramType":null,"paramKey":"preview-fullstack","hasRuntimePrefetch":false,"slots":{"children":{"name":"__PAGE__","paramType":null,"paramKey":"__PAGE__","hasRuntimePrefetch":false,"slots":null,"isRootLayout":false}},"isRootLayout":false}},"isRootLayout":true},"staleTime":300}
