@@ -22,9 +22,9 @@ async function main() {
       status: "ACTIVE",
       heroTitle: "Fullstack-разработчик",
       ndaText:
-        "Вся информация, которую вы предоставляете в этой анкете, используется исключительно для оценки вашей кандидатуры на позицию Fullstack-разработчика в команде Global Generation.\n\nВаши ответы не передаются третьим лицам и не используются в иных целях. Доступ к анкете имеют только сотрудники GG, участвующие в отборе.\n\nФакт подачи заявки остаётся конфиденциальным. Мы не уведомляем ваших текущих работодателей или заказчиков.",
+        "Вся информация, которую вы предоставляете в этой анкете, используется исключительно для оценки вашей кандидатуры на позицию Fullstack-разработчика в команде Global Generation.\n\nВаши ответы не передаются третьим лицам и не используются в иных целях. Доступ к анкете имеют только сотрудники GG, участвующие в отборе.",
       successMessage:
-        "Спасибо за заявку!\n\nМы разберём ваши ответы и свяжемся с вами в Telegram в течение 2–3 рабочих дней.\n\nЕсли вы нам подходите — пригласим на короткий созвон, а затем на оплачиваемое тестовое задание.",
+        "Спасибо за заявку!\n\nМы разберём ваши ответы и свяжемся с вами в Telegram в течение 2–3 рабочих дней.\n\nЕсли вы нам подходите — пригласим на короткий созвон, а затем на основное тестовое задание.",
       maxScore: 100,
       dedupFieldKey: "telegram",
       scoreTiers: [
@@ -36,24 +36,10 @@ async function main() {
 
       pages: {
         create: [
-          // ─── Page 1: О себе ───
+          // ─── ЭТАП 1: Быстрое тестовое (основные навыки) ───
           {
-            title: "О себе",
+            title: "Этап 1 · Быстрое тестовое",
             sortOrder: 0,
-            questions: {
-              create: [
-                { fieldKey: "name", label: "Имя и фамилия", type: "TEXT", required: true, sortOrder: 0, maxPoints: 0 },
-                { fieldKey: "telegram", label: "Telegram", description: "Мы свяжемся именно через Telegram", type: "TEXT", required: true, sortOrder: 1, config: { prefix: "@" }, maxPoints: 0 },
-                { fieldKey: "age", label: "Возраст", type: "NUMBER", required: true, sortOrder: 2, config: { min: 18, max: 70 }, maxPoints: 0 },
-                { fieldKey: "city", label: "Город и страна", type: "TEXT", required: true, sortOrder: 3, maxPoints: 0 },
-              ],
-            },
-          },
-
-          // ─── Page 2: Опыт и стек (hard-фильтры) ───
-          {
-            title: "Опыт и стек",
-            sortOrder: 1,
             questions: {
               create: [
                 {
@@ -169,14 +155,49 @@ async function main() {
                     ],
                   },
                 },
+                {
+                  fieldKey: "slowEndpoint",
+                  label: "Мини-задача: вам дали медленный API-эндпоинт. С чего начнёте искать причину?",
+                  description: "Коротко, по делу — это быстрый срез навыков",
+                  type: "TEXTAREA",
+                  required: true,
+                  sortOrder: 6,
+                  scoringCategory: "debugging",
+                  maxPoints: 12,
+                  scoringRules: {
+                    type: "textLength",
+                    tiers: [
+                      { min: 200, points: 12 },
+                      { min: 100, points: 8 },
+                      { min: 40, points: 4 },
+                    ],
+                  },
+                },
+                {
+                  fieldKey: "secrets",
+                  label: "Мини-задача: как вы храните пароли и секреты и не допускаете их утечки в репозиторий?",
+                  type: "TEXTAREA",
+                  required: true,
+                  sortOrder: 7,
+                  scoringCategory: "security",
+                  maxPoints: 10,
+                  scoringRules: {
+                    type: "textLength",
+                    tiers: [
+                      { min: 200, points: 10 },
+                      { min: 100, points: 7 },
+                      { min: 40, points: 3 },
+                    ],
+                  },
+                },
               ],
             },
           },
 
-          // ─── Page 3: Формат и готовность (hard-фильтры) ───
+          // ─── ЭТАП 2: О вас и детали (личное — в конце) ───
           {
-            title: "Формат и готовность",
-            sortOrder: 2,
+            title: "Этап 2 · О вас и детали",
+            sortOrder: 1,
             questions: {
               create: [
                 {
@@ -210,7 +231,7 @@ async function main() {
                 },
                 {
                   fieldKey: "testTaskOk",
-                  label: "Готовы выполнить оплачиваемое тестовое задание (примерно один рабочий день)?",
+                  label: "Готовы позже выполнить основное оплачиваемое тестовое (примерно один рабочий день)?",
                   type: "BOOLEAN",
                   required: true,
                   sortOrder: 2,
@@ -222,25 +243,15 @@ async function main() {
                     ],
                   },
                 },
-              ],
-            },
-          },
-
-          // ─── Page 4: Ссылки и проекты ───
-          {
-            title: "Ссылки и проекты",
-            sortOrder: 3,
-            questions: {
-              create: [
-                { fieldKey: "github", label: "Ссылка на GitHub / GitLab", description: "Обязательно", type: "TEXT", required: true, sortOrder: 0, maxPoints: 0 },
-                { fieldKey: "portfolio", label: "Ссылка на резюме, портфолио или деплой любого проекта", description: "Необязательно", type: "TEXT", required: false, sortOrder: 1, maxPoints: 0 },
+                { fieldKey: "github", label: "Ссылка на GitHub / GitLab", description: "Обязательно", type: "TEXT", required: true, sortOrder: 3, maxPoints: 0 },
+                { fieldKey: "portfolio", label: "Ссылка на резюме, портфолио или деплой любого проекта", description: "Необязательно", type: "TEXT", required: false, sortOrder: 4, maxPoints: 0 },
                 {
                   fieldKey: "lastProduct",
                   label: "Над каким продуктом вы работали последним и какая была ваша роль?",
                   description: "2–3 предложения",
                   type: "TEXTAREA",
                   required: true,
-                  sortOrder: 2,
+                  sortOrder: 5,
                   scoringCategory: "lastProduct",
                   maxPoints: 9,
                   scoringRules: {
@@ -253,92 +264,32 @@ async function main() {
                     ],
                   },
                 },
-              ],
-            },
-          },
-
-          // ─── Page 5: Технические вопросы (открытые) ───
-          {
-            title: "Технические вопросы",
-            sortOrder: 4,
-            questions: {
-              create: [
                 {
                   fieldKey: "archLast",
-                  label: "Опишите архитектуру вашего последнего проекта: как общались фронтенд и бэкенд, где была БД, как деплоили.",
+                  label: "Опишите архитектуру этого проекта: как общались фронтенд и бэкенд, где была БД, как деплоили.",
                   type: "TEXTAREA",
                   required: true,
-                  sortOrder: 0,
+                  sortOrder: 6,
                   scoringCategory: "architecture",
-                  maxPoints: 12,
+                  maxPoints: 14,
                   scoringRules: {
                     type: "textLength",
                     tiers: [
-                      { min: 300, points: 12 },
-                      { min: 180, points: 9 },
+                      { min: 300, points: 14 },
+                      { min: 180, points: 10 },
                       { min: 90, points: 6 },
                       { min: 30, points: 3 },
                     ],
                   },
                 },
                 {
-                  fieldKey: "slowEndpoint",
-                  label: "Вам дали медленный API-эндпоинт. С чего начнёте искать причину?",
+                  fieldKey: "motivation",
+                  label: "Почему откликнулись именно на нашу вакансию? Что зацепило?",
+                  description: "Нас интересует честный ответ, а не «правильный»",
                   type: "TEXTAREA",
                   required: true,
-                  sortOrder: 1,
-                  scoringCategory: "debugging",
-                  maxPoints: 8,
-                  scoringRules: {
-                    type: "textLength",
-                    tiers: [
-                      { min: 200, points: 8 },
-                      { min: 100, points: 5 },
-                      { min: 40, points: 2 },
-                    ],
-                  },
-                },
-                {
-                  fieldKey: "secrets",
-                  label: "Как вы храните пароли и секреты и не допускаете их утечки в репозиторий?",
-                  type: "TEXTAREA",
-                  required: true,
-                  sortOrder: 2,
-                  scoringCategory: "security",
-                  maxPoints: 8,
-                  scoringRules: {
-                    type: "textLength",
-                    tiers: [
-                      { min: 200, points: 8 },
-                      { min: 100, points: 5 },
-                      { min: 40, points: 2 },
-                    ],
-                  },
-                },
-                {
-                  fieldKey: "doneDefinition",
-                  label: "Что для вас «готовая задача» — когда вы считаете её сделанной?",
-                  type: "TEXTAREA",
-                  required: true,
-                  sortOrder: 3,
-                  scoringCategory: "ownership",
-                  maxPoints: 8,
-                  scoringRules: {
-                    type: "textLength",
-                    tiers: [
-                      { min: 150, points: 8 },
-                      { min: 80, points: 5 },
-                      { min: 30, points: 2 },
-                    ],
-                  },
-                },
-                {
-                  fieldKey: "disagreement",
-                  label: "Опишите ситуацию, когда вы не согласились с решением по продукту или архитектуре. Что сделали?",
-                  type: "TEXTAREA",
-                  required: true,
-                  sortOrder: 4,
-                  scoringCategory: "communication",
+                  sortOrder: 7,
+                  scoringCategory: "motivation",
                   maxPoints: 10,
                   scoringRules: {
                     type: "textLength",
@@ -350,23 +301,16 @@ async function main() {
                     ],
                   },
                 },
-              ],
-            },
-          },
-
-          // ─── Page 6: Мотивация и согласие ───
-          {
-            title: "Мотивация и согласие",
-            sortOrder: 5,
-            questions: {
-              create: [
-                { fieldKey: "motivation", label: "Почему откликнулись именно на нашу вакансию? Что зацепило?", description: "Нас интересует честный ответ, а не «правильный»", type: "TEXTAREA", required: true, sortOrder: 0, maxPoints: 0 },
+                { fieldKey: "name", label: "Имя и фамилия", type: "TEXT", required: true, sortOrder: 8, maxPoints: 0 },
+                { fieldKey: "telegram", label: "Telegram", description: "Мы свяжемся именно через Telegram", type: "TEXT", required: true, sortOrder: 9, config: { prefix: "@" }, maxPoints: 0 },
+                { fieldKey: "age", label: "Возраст", type: "NUMBER", required: true, sortOrder: 10, config: { min: 18, max: 70 }, maxPoints: 0 },
+                { fieldKey: "city", label: "Город и страна", type: "TEXT", required: true, sortOrder: 11, maxPoints: 0 },
                 {
                   fieldKey: "referralSource",
                   label: "Откуда вы узнали о вакансии?",
                   type: "RADIO",
                   required: false,
-                  sortOrder: 1,
+                  sortOrder: 12,
                   config: { layout: "grid" },
                   maxPoints: 0,
                   options: {
@@ -379,7 +323,15 @@ async function main() {
                     ],
                   },
                 },
-                { fieldKey: "consentData", label: "Я согласен(на) на обработку персональных данных", description: "Данные используются только для рассмотрения заявки и связи с кандидатом", type: "CONSENT", required: true, sortOrder: 2, maxPoints: 0 },
+                {
+                  fieldKey: "consentData",
+                  label: "Я согласен(на) на обработку персональных данных",
+                  description: "Данные используются только для рассмотрения заявки и связи с кандидатом",
+                  type: "CONSENT",
+                  required: true,
+                  sortOrder: 13,
+                  maxPoints: 0,
+                },
               ],
             },
           },
